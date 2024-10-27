@@ -1,14 +1,32 @@
+"""
+rus
+Автор кода Avalishen
+Данный код является помошником для нахождения дубликатов фотографий в указанной папке
+А так же код может перенести дубликаты фотографий в созданную вами папку
+В строку "folder_path" нужно поместить путь к папке которую нужно проанализировать на наличине дубликатов
+В строку "duplicates_folder_path" нужно прописать путь к папке в которуб буду помещаться дубликаты
+
+eng
+Code author Avalishen
+This code is an assistant for finding duplicate photos in a specified folder
+And the code can also move duplicate photos to a folder you created
+In the line "folder_path" you need to put the path to the folder that needs to be analyzed for duplicates
+In the line "duplicates_folder_path" you need to write the path to the folder in which duplicates will be placed
+"""
+
+
 import os
 import shutil
 from PIL import Image
 import imagehash
 from collections import defaultdict
 
+
 def find_and_sort_duplicates(folder_path, duplicates_folder_path):
     # Создание папки для дубликатов, если она не существует
     if not os.path.exists(duplicates_folder_path):
         os.makedirs(duplicates_folder_path)
-    
+
     # Словарь для хранения хэшей и списков путей к дубликатам
     hashes = {}
     duplicates = defaultdict(list)
@@ -22,12 +40,12 @@ def find_and_sort_duplicates(folder_path, duplicates_folder_path):
             with Image.open(file_path) as img:
                 # Вычисляем хэш изображения
                 img_hash = imagehash.phash(img)
-                
+
                 # Проверяем, существует ли уже такой хэш
                 if img_hash in hashes:
                     # Добавляем текущий файл в список дубликатов для данного хэша
                     duplicates[img_hash].append(file_path)
-                    
+
                     # Перемещаем файл дубликата в папку дубликатов
                     new_path = os.path.join(duplicates_folder_path, filename)
                     shutil.move(file_path, new_path)
@@ -39,12 +57,13 @@ def find_and_sort_duplicates(folder_path, duplicates_folder_path):
 
     # Сортировка хэшей по количеству дубликатов от большего к меньшему
     sorted_duplicates = sorted(duplicates.items(), key=lambda item: len(item[1]), reverse=True)
-    
+
     return sorted_duplicates
+
 
 # Пример использования
 folder_path = r"C:\Users\denis\Pictures"  # Путь к папке с фотографиями
-duplicates_folder_path = r"C:\Users\denis\Pictures\Duplicates"  # Путь к папке для дубликатов
+duplicates_folder_path = r"C:\Users\Pictures\Duplicates"  # Путь к папке для дубликатов
 
 sorted_duplicates = find_and_sort_duplicates(folder_path, duplicates_folder_path)
 
