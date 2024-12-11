@@ -62,7 +62,7 @@ def find_and_sort_duplicates(folder_path, duplicates_folder_path):
 
 
 # Пример использования
-folder_path = r"C:\Users\denis\Pictures"  # Путь к папке с фотографиями
+folder_path = r"C:\Users\user\Pictures"  # Путь к папке с фотографиями
 duplicates_folder_path = r"C:\Users\Pictures\Duplicates"  # Путь к папке для дубликатов
 
 sorted_duplicates = find_and_sort_duplicates(folder_path, duplicates_folder_path)
